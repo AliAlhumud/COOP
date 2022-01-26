@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>أمانة الاحساء</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+
+        
+	</head>
+	<body>
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+<a href="https://www.alhasa.gov.sa/">
+                       <img src="images/AlhasaMunic.jpg" hight="800" width="200" alt="" >
+                    </a>
+					<nav id="nav">
+						<a href="coninfopage.html">استعلام المخالفات</a>
+						<a href="login.html">تسجيل الدخول</a>
+						<a href="index.html">الرئيسية</a>
+  
+					</nav>
+				</div>
+			</header>
+        <br>
+<form name="searchx" action="UpdateProcess.php"  method="POST">
+<div class="container">
+<h1 class="x1" >الاستعلام برقم الهوية الوطنية</h1>
+
+
+  
+    <label class="x1" for="gsearch">رقم الهوية الوطنية</label>
+  <input type="number" name="uid" id="uid" onKeyPress="if(this.value.length==10) return false;"class="G1">
+    
+                    <div id="msg"  class="txt2">
+                        <br><br>
+						<span >
+							رقم الهوية المدخل غير صحيح
+						</span>
+					</div>
+    
+    <input type="submit" value="بحث" name="search" class="G1">
+    
+      
+
+
+
+<table class="x1">
+  <thead id="listh">     
+
+  </thead>
+        <tbody id="list">
+        
+        
+        
+        
+        
+        </tbody>
+</table>
+
+  <p class="x1">© جميع حقوق الطبع والنشر محفوظة لدى أمانة الأحساء 2020 م <br></p>
+    
+</div>
+    </form>
+<script>
+
+    
+    
+    var btn = document.searchx.search;
+btn.addEventListener("click", validate_login);
+
+function validate_login(e)
+{
+    e.preventDefault();
+    
+    var uid = document.searchx.uid.value;
+    var msg = document.querySelector("#msg");
+    var valid=true;
+    
+    if(uid == "")
+    {
+        valid=false;
+        msg.style.visibility="visible"
+    }
+    else{
+         msg.style.visibility="hidden"
+    }
+    if(valid)
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function()
+            {
+
+                var out = JSON.parse(xhr.responseText);
+                        var list = "";
+                        var head = "";
+                        var x= 1;
+                
+                                head += "<tr>";
+                                head += "<td>" + "تاريخها"+"</td>";
+                                head += "<td>" + "عنوان المخالفة"+ "</td>";
+                                head += "<td>" + "رقم المخالفة"+ "</td>";
+                                head += "<td>" + "تسلسل"+ "</td>";
+                                head += "</tr>";
+                            
+                            document.querySelector("#listh").innerHTML = head;
+
+                        for(var i in out)
+                            {
+                                list += "<tr>";
+                                    
+                                    list += "<td>" + out[i].date+ "</td>";
+                                    list += "<td>" + out[i].padd+ "</td>";
+                                    list += "<td>" + out[i].pid+ "</td>";
+                                    list += "<td>" + x + "</td>";
+
+                                list += "</tr>";
+                                x++;
+                            }
+                        document.querySelector("#list").innerHTML = list;               
+          
+            
+            }
+            
+            xhr.open("post", "UpdateProcess.php", true);
+            var formData= "uid="+document.searchx.uid.value;
+            xhr.setRequestHeader('Content-type', 'application/x-WWW-form-urlencoded');
+            xhr.send(formData);
+            
+            
+        }
+    
+    
+
+    
+}
+        
+         
+        
+        
+        </script>
+	</body>
+    
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>تسجيل الدخول</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="cssl/util.css">
+	<link rel="stylesheet" type="text/css" href="cssl/main.css">
+<!--===============================================================================================-->
+</head>
+<body style="background-color: #666666;">
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form" id="contact" name="loginF" method="POST" action="login.php">
+					<span class="login100-form-title p-b-43">
+						تسجيل الدخول 
+					</span>
+					
+					
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+						<input class="input100" type="text" name="uid" id="uid">
+						<span class="focus-input100"></span>
+						<span class="label-input100">أسم المستخدم</span>
+					</div>
+					
+					
+					<div class="wrap-input100 validate-input" data-validate="Password is required">
+						<input class="input100" type="password" name="pwd" id="pwd">
+						<span class="focus-input100"></span>
+						<span class="label-input100">كلمة المرور</span>
+					</div>
+
+
+			
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn" name="login">
+							تسجيل الدخول
+						</button>
+					</div>
+                    					<div id="msg" lass="text-center p-t-46 p-b-20">
+						<span class="txt2">
+							اسم المستخدم او كلمة المرور غير صحيحة
+						</span>
+					</div>
+					
+
+
+
+				</form>
+
+				<div class="login100-more" style="background-image: url('images/bg-01.jpg');">
+				</div>
+			</div>
+		</div>
+	</div>
+	
+        <script>  
+var btn = document.loginF.login;
+btn.addEventListener("click", validate_login);
+
+function validate_login(e)
+{
+    e.preventDefault();
+    
+    var uid = document.loginF.uid.value;
+    var pwd = document.loginF.pwd.value;
+    var uidd = document.querySelector("#uid"); //get error
+        var pwdd = document.querySelector("#pwd");
+var msg = document.querySelector("#msg");
+    var valid=true;
+    
+    if(uid == "")
+    {
+        valid=false;
+        uidd.style.visibility = "visible";
+        msg.style.visibility = "visible";
+    }
+    else
+        {
+            msg.style.visibility = "visible";
+        }
+    
+    if(pwd == "")
+    {
+        valid=false;
+        pwdd.style.visibility = "visible";
+        msg.style.visibility = "visible";
+    }
+    else
+        {
+            msg.style.visibility = "visible";
+        }
+    
+    if(valid)
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function()
+            {
+                if(xhr.readyState==4 && xhr.status==200)
+                    {
+                        var out = xhr.responseText;
+                        console.log(out);
+                        if(out==1){
+                            
+                        document.location = "conpage.php";
+                        
+                        }
+                        
+                         else 
+                        {
+                    msg.style.visibility = "visible";;
+                       }
+                    }
+               
+            }
+            
+            xhr.open("post", "login.php", true);
+var formData= "uid="+document.loginF.uid.value+"&pwd="+document.loginF.pwd.value;            xhr.setRequestHeader('Content-type', 'application/x-WWW-form-urlencoded');
+            xhr.send(formData);
+            
+            
+        }
+    
+    
+
+    
+}
+
+</script>
+
+    
+</body>
+</html>
